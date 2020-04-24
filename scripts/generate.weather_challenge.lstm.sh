@@ -10,7 +10,8 @@ testpfx=test
 gen=gen.constr.txt
 
 fairseq-generate data-prep/$data \
-  --user-dir . `# delete this line to decode without constraints` \
+  --user-dir . \
+  --constr-dec \
   --gen-subset $testpfx \
   --path $SAVEDIR/checkpoint_best.pt \
   --dataset-impl raw \

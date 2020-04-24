@@ -1,16 +1,26 @@
-from fairseq import search
+"""
+Overload fairseq_task.py
+"""
 
+from fairseq import search
 from fairseq.tasks import FairseqTask
 
+from fairseq.sequence_generator import SequenceGenerator
+from ..constrained_decoding import ConstrainedSequenceGenerator
 
 def build_generator(self, models, args):
+    """
+    Overload build_generator()
+    """
     search_strategy = search.BeamSearch(self.target_dictionary)
-    from ..constrained_decoding import ConstrainedSequenceGenerator
-    seq_gen_cls = ConstrainedSequenceGenerator
-    dicts = (self.source_dictionary, self.target_dictionary)
+    if args.constr_dec:
+        seq_gen_cls = ConstrainedSequenceGenerator
+        kwargs = (self.source_dictionary, self.target_dictionary, args.order_constr)
+    else:
+        seq_gen_cls = SequenceGenerator
+        kwargs = (self.target_dictionary,)
     return seq_gen_cls(
-        *dicts,
-        order_constr=getattr(args, 'order_constr', False),
+        *kwargs,
         beam_size=getattr(args, 'beam', 5),
         max_len_a=getattr(args, 'max_len_a', 0),
         max_len_b=getattr(args, 'max_len_b', 200),
