@@ -32,10 +32,16 @@ rmtreeinfo () {
   sed 's/\[\S\+//g;s/\]//g' | awk '{$1=$1;print}'
 }
 
+# remove ignored non-terminals
+rmignnt () {
+  sed -E 's/\[(__ARG_TASK__|__ARG_BAD_ARG__|__ARG_ERROR_REASON__|__ARG_TEMP_UNIT__)[^][]*\]//g' | \
+    awk '{$1=$1;print}'
+}
+
 # preparing for rescoring
 src=$tmp/src
 hyp=$tmp/hyp
-grep ^S- $tmp/gen.txt | awk -F '\t' '{print $2}' | beam_repeat > $src
+grep ^S- $tmp/gen.txt | awk -F '\t' '{print $2}' | rmignnt | beam_repeat > $src
 grep ^H- $tmp/gen.txt | awk -F '\t' '{print $3}' | rmtreeinfo > $hyp
 ln -s $(readlink -f $hyp) $tmp/test.ar-mr.ar
 ln -s $(readlink -f $src) $tmp/test.ar-mr.mr
