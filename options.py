@@ -15,13 +15,6 @@ def overload_add_generation_args(parser):
                        help='activate constrained decoding')
     group.add_argument('--order-constr', action='store_true',
                        help='activate order constraint')
-    group.add_argument('--rerank-scorer', type=str,
-                       choices=[
-                           'shortest',
-                           'BLEU_oracle',
-                           'GPT2'
-                       ],
-                       help='assign a scorer for reranking')
     return group
 
 options.add_generation_args = overload_add_generation_args
