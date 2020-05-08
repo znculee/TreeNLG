@@ -30,14 +30,14 @@ src=$tmp/src
 mkdir -p $tmp
 
 rmtreeinfo () {
-  sed 's/\[\w\+//g' | sed 's/\]//g' | awk '{$1=$1;print}'
+  sed 's/\[\S\+//g;s/\]//g' | awk '{$1=$1;print}'
 }
 
 cat $ref_tree | rmtreeinfo > $ref
 
-repl=$(grep H- $gen | awk -F '\t' '$2=="-inf" {print $1}' | cut -d '-' -f 2 | awk '{print $1+1}')
+repl=$(grep ^H- $gen | awk -F '\t' '$2=="-inf" {print $1}' | cut -d '-' -f 2 | awk '{print $1+1}')
 awk -F '\t' 'NR==FNR {l[$0];next} !(FNR in l) {print $3} (FNR in l) {print $6}' \
-  <(echo "$repl") <(paste <(grep H- $gen | sort -n -k 2 -t -) <(grep H- $base | sort -n -k 2 -t -)) | \
+  <(echo "$repl") <(paste <(grep ^H- $gen | sort -n -k 2 -t -) <(grep ^H- $base | sort -n -k 2 -t -)) | \
   rmtreeinfo > $hyp
 if [[ $(basename $2) == *".disc."* ]]; then
   didx=data/E2E_compositional/disc.idx

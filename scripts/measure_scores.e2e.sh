@@ -29,11 +29,11 @@ hyp=$tmp/hyp
 mkdir -p $tmp
 
 rmtreeinfo () {
-  sed 's/\[\w\+//g' | sed 's/\]//g' | awk '{$1=$1;print}'
+  sed 's/\[\S\+//g;s/\]//g' | awk '{$1=$1;print}'
 }
 
 cat $ref_tree | rmtreeinfo > $ref
-grep H- $gen | sort -n -k 2 -t - | awk -F '\t' '{print $3}' | rmtreeinfo > $hyp
+grep ^H- $gen | sort -n -k 2 -t - | awk -F '\t' '{print $3}' | rmtreeinfo > $hyp
 if [[ $(basename $2) == *".disc."* ]]; then
   didx=data/E2E_compositional/disc.idx
   dhyp=$tmp/hyp.disc

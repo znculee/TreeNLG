@@ -18,11 +18,11 @@ hyp=$tmp/hyp
 
 mkdir -p $tmp
 
-grep S- $gen | sort -n -k 2 -t - | awk -F '\t' '{print $1}' | sed 's/^S-//' > $id
-grep S- $gen | sort -n -k 2 -t - | awk -F '\t' '{print $2}' > $src
-repl=$(grep H- $gen | awk -F '\t' '$2=="-inf" {print $1}' | cut -d '-' -f 2 | awk '{print $1+1}')
+grep ^S- $gen | sort -n -k 2 -t - | awk -F '\t' '{print $1}' | sed 's/^S-//' > $id
+grep ^S- $gen | sort -n -k 2 -t - | awk -F '\t' '{print $2}' > $src
+repl=$(grep ^H- $gen | awk -F '\t' '$2=="-inf" {print $1}' | cut -d '-' -f 2 | awk '{print $1+1}')
 awk -F '\t' 'NR==FNR {l[$0];next} !(FNR in l) {print $3} (FNR in l) {print $6}' \
-  <(echo "$repl") <(paste <(grep H- $gen | sort -n -k 2 -t -) <(grep H- $base | sort -n -k 2 -t -)) \
+  <(echo "$repl") <(paste <(grep ^H- $gen | sort -n -k 2 -t -) <(grep ^H- $base | sort -n -k 2 -t -)) \
   > $hyp
 paste $id $src $hyp > $tsv
 

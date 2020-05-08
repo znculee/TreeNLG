@@ -5,13 +5,19 @@ Overload fairseq_task.py
 from fairseq import search
 from fairseq.tasks import FairseqTask
 
+from fairseq.sequence_scorer import SequenceScorer
 from fairseq.sequence_generator import SequenceGenerator
 from ..constrained_decoding import ConstrainedSequenceGenerator
 
-def build_generator(self, models, args):
+def build_generator(self, _models, args):
     """
     Overload build_generator()
     """
+    if getattr(args, "score_reference", False):
+        return SequenceScorer(
+            self.target_dictionary,
+            compute_alignment=getattr(args, "print_alignment", False),
+        )
     search_strategy = search.BeamSearch(self.target_dictionary)
     if args.constr_dec:
         seq_gen_cls = ConstrainedSequenceGenerator

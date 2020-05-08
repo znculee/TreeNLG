@@ -16,9 +16,9 @@ hyp=$tmp/hyp
 
 mkdir -p $tmp
 
-grep S- $gen | awk -F '\t' '{print $1}' | sed 's/^S-//' > $id
-grep S- $gen | awk -F '\t' '{print $2}' > $src
-grep H- $gen | awk -F '\t' '{print $3}' > $hyp
+grep ^S- $gen | awk -F '\t' '{print $1}' | sed 's/^S-//' > $id
+grep ^S- $gen | awk -F '\t' '{print $2}' > $src
+grep ^H- $gen | awk -F '\t' '{print $3}' > $hyp
 paste $id $src $hyp > $tsv
 
 python scripts/compute_tree_acc.py -tsv $tsv
