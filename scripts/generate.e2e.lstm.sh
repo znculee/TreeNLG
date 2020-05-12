@@ -2,6 +2,7 @@
 
 cd $(dirname $0)/..
 
+export CUDA_VISIBLE_DEVICES=0
 TMPDIR=/tmp
 data=e2e
 model=lstm

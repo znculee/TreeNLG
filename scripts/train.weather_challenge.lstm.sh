@@ -2,8 +2,8 @@
 
 cd $(dirname $0)/..
 
+export CUDA_VISIBLE_DEVICES=0
 TMPDIR=/tmp
-CUDA_VISIBLE_DEVICES=0
 data=weather_challenge
 model=lstm
 SAVEDIR=checkpoints/$data.$model
