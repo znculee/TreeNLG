@@ -11,12 +11,12 @@ This repo is a branch based on [e66e012](https://github.com/facebookresearch/Tre
 ### Get Started
 
 ```bash
-git clone https://github.com/facebookresearch/TreeNLG.git
+git clone https://github.com/znculee/TreeNLG.git
 cd TreeNLG
 git clone https://github.com/pytorch/fairseq.git
 cd fairseq
-pip install -e .
 git checkout -b treenlg e9014fb
+pip install -e .
 cd ..
 ```
 
