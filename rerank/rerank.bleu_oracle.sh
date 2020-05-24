@@ -2,7 +2,7 @@
 
 cd $(dirname $0)/..
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=$1
 TMPDIR=/tmp
 data=weather
 model=lstm
@@ -11,7 +11,7 @@ testpfx=test
 beam_size=5
 gen=gen.rrk-bleu_oracle.txt
 
-tmp=rerank/tmp
+tmp=$SAVEDIR/tmp.rrk
 mkdir -p $tmp
 
 # generating
@@ -36,7 +36,7 @@ grep ^T- $tmp/gen.txt | awk -F '\t' '{print $2}' | beam_repeat > $tgt
 grep ^H- $tmp/gen.txt | awk -F '\t' '{print $3}' > $hyp
 
 # rescoring
-python rerank/scorer.bleu_oracle.py
+python rerank/scorer.bleu_oracle.py $tmp
 
 # reranking
 paste \

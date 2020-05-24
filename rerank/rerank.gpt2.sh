@@ -2,7 +2,7 @@
 
 cd $(dirname $0)/..
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=$1
 TMPDIR=/tmp
 data=weather
 model=lstm
@@ -11,7 +11,7 @@ testpfx=test
 beam_size=5
 gen=gen.rrk-gpt2.txt
 
-tmp=rerank/tmp
+tmp=$SAVEDIR/tmp.rrk
 mkdir -p $tmp
 
 # generating
@@ -38,7 +38,7 @@ hyp=$tmp/hyp
 grep ^H- $tmp/gen.txt | awk -F '\t' '{print $3}' | rmtreeinfo > $hyp
 
 # rescoring
-python rerank/scorer.gpt2.py
+python rerank/scorer.gpt2.py $tmp
 
 # reranking
 paste \

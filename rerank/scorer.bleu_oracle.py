@@ -1,3 +1,4 @@
+import argparse
 import contextlib
 import os
 
@@ -5,10 +6,10 @@ from nltk.translate.bleu_score import sentence_bleu
 
 os.chdir(os.path.dirname(os.path.realpath(os.path.join(__file__, '..'))))
 
-def main():
-    f_tgt = open('rerank/tmp/tgt', 'r')
-    f_hyp = open('rerank/tmp/hyp', 'r')
-    f_score = open('rerank/tmp/score', 'w')
+def main(args):
+    f_tgt = open(args.tmpdir + '/tgt', 'r')
+    f_hyp = open(args.tmpdir + '/hyp', 'r')
+    f_score = open(args.tmpdir + '/score', 'w')
 
     total = None
     for total, _ in enumerate(f_hyp, 1):
@@ -26,5 +27,11 @@ def main():
     f_hyp.close()
     f_score.close()
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('tmpdir')
+    args = parser.parse_args()
+    return args
+
 if __name__ == '__main__':
-    main()
+    main(parse_args())

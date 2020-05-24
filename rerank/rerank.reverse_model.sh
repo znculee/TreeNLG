@@ -2,7 +2,7 @@
 
 cd $(dirname $0)/..
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=$1
 TMPDIR=/tmp
 data=weather
 model=lstm
