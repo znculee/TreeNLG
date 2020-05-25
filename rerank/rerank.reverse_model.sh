@@ -40,12 +40,10 @@ rmignnt () {
 }
 
 # preparing for rescoring
-src=$tmp/src
-hyp=$tmp/hyp
-grep ^S- $tmp/gen.txt | awk -F '\t' '{print $2}' | rmignnt | beam_repeat > $src
-grep ^H- $tmp/gen.txt | awk -F '\t' '{print $3}' | rmtreeinfo > $hyp
-ln -s $(readlink -f $hyp) $tmp/test.ar-mr.ar
-ln -s $(readlink -f $src) $tmp/test.ar-mr.mr
+grep ^S- $tmp/gen.txt | awk -F '\t' '{print $2}' | rmignnt | beam_repeat > $tmp/src
+grep ^H- $tmp/gen.txt | awk -F '\t' '{print $3}' | rmtreeinfo > $tmp/hyp
+ln -s $(readlink -f $tmp/hyp) $tmp/test.ar-mr.ar
+ln -s $(readlink -f $tmp/src) $tmp/test.ar-mr.mr
 REVMDLDATA=revmdl/data-prep
 ln -s $(readlink -f $REVMDLDATA/$data/dict.ar.txt) $tmp/dict.ar.txt
 ln -s $(readlink -f $REVMDLDATA/$data/dict.mr.txt) $tmp/dict.mr.txt

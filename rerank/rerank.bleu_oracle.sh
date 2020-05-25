@@ -30,10 +30,8 @@ beam_repeat () {
 }
 
 # preparing for rescoring
-tgt=$tmp/tgt
-hyp=$tmp/hyp
-grep ^T- $tmp/gen.txt | awk -F '\t' '{print $2}' | beam_repeat > $tgt
-grep ^H- $tmp/gen.txt | awk -F '\t' '{print $3}' > $hyp
+grep ^T- $tmp/gen.txt | awk -F '\t' '{print $2}' | beam_repeat > $tmp/tgt
+grep ^H- $tmp/gen.txt | awk -F '\t' '{print $3}' > $tmp/hyp
 
 # rescoring
 python rerank/scorer.bleu_oracle.py $tmp
