@@ -2,6 +2,41 @@
 """
 augment weather meaning representation by deletion
 """
+# EXAMPLE {{{
+"""
+<0>[__ROOT__
+    <1>[__DG_INFORM__
+        <2>[__ARG_TASK__ <3>get_forecast <4>]
+        <5>[__ARG_TEMP__ <6>31 <7>]
+        <8>[__ARG_TEMP_UNIT__ <9>fahrenheit <10>]
+        <11>[__ARG_CLOUD_COVERAGE__ <12>mostly <13>cloudy <14>]
+        <15>[__ARG_DATE_TIME__
+            <16>[__ARG_COLLOQUIAL__ <17>Currently <18>]
+        <19>]
+    <20>]
+    <21>[__DG_INFORM__
+        <22>[__ARG_TASK__ <23>get_forecast <24>]
+        <25>[__ARG_TEMP_SUMMARY__ <26>low <27>40s <28>]
+    <29>]
+    <30>[__DG_INFORM__
+        <31>[__ARG_TASK__ <32>get_forecast <33>]
+        <34>[__ARG_CLOUD_COVERAGE__ <35>cloudy <36>]
+    <37>]
+<38>]
+
+Revisable DG_INFORM:
+[1, 21, 30]
+
+Removable DG_INFORM:
+[[1], [21], [30], [1, 21], [1, 30], [21, 30]]
+
+Removable ARG:
+{1: [[[5, 8]], [11], []], 21: [[]], 30: [[]]}
+
+Deletion Candidates:
+[[1], [21, 5, 8], [21, 11], [21], [30, 5, 8], [30, 11], [30], [1, 21], [1, 30], [21, 30, 5, 8], [21, 30, 11], [21, 30], [5, 8], [11]]
+"""
+# }}}
 
 import os
 from itertools import chain, combinations, product
@@ -170,3 +205,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# vim: set fdm=marker:
