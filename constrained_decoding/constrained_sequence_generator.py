@@ -31,7 +31,12 @@ class ConstrainedSequenceGenerator(SequenceGenerator):
         for i, tok in enumerate(vocab):
             if i >= len(vocab):
                 break
-            if tok[0] != '[' and tok != ']' and tok != self.tgt_dict[self.tgt_dict.eos()]:
+            if (
+                tok[0] != '[' and
+                (not tok.startswith('__ARG_')) and
+                tok != ']' and
+                tok != self.tgt_dict[self.tgt_dict.eos()]
+            ):
                 continue
             nt_map.append(i)
         return nt_map
@@ -64,7 +69,7 @@ class ConstrainedSequenceGenerator(SequenceGenerator):
                 permitted_eos.append(False)
             constraint_penalty.append([
                 0.0
-                if self.tgt_dict[nt].strip('[') in nominated_nt
+                if self.tgt_dict[nt] in nominated_nt
                 else -math.inf
                 for nt in self.nt_map
             ])

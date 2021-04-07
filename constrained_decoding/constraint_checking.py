@@ -16,6 +16,35 @@ IGNORE_NON_TERMINALS = {
 }
 IGNORE_NODE_REGEX = r"\[{} [a-z_]+ \]"
 
+PLACEHOLDER_ARGUMENTS = {
+    "__ARG_TEMP_HIGH__",
+    "__ARG_CITY__",
+    "__ARG_TEMP_LOW__",
+    "__ARG_TEMP_UNIT__",
+    "__ARG_TEMP__",
+    "__ARG_REGION__",
+    "__ARG_WEEKDAY__",
+    "__ARG_END_TIME__",
+    "__ARG_START_TIME__",
+    "__ARG_TIME__",
+    "__ARG_BAD_ARG__",
+    "__ARG_COUNTRY__",
+    "__ARG_PRECIP_CHANCE__",
+    "__ARG_END_WEEKDAY__",
+    "__ARG_START_WEEKDAY__",
+    "__ARG_DAY__",
+    "__ARG_PRECIP_AMOUNT__",
+    "__ARG_PRECIP_AMOUNT_UNIT__",
+    "__ARG_END_DAY__",
+    "__ARG_START_DAY__",
+    "__ARG_MONTH__",
+    "__ARG_WIND_SPEED__",
+    "__ARG_START_MONTH__",
+    "__ARG_END_MONTH__",
+    "__ARG_YEAR__",
+    "__ARG_END_YEAR__",
+}
+
 
 def split_and_strip(s):
     """
@@ -438,7 +467,7 @@ class TreeConstraints:
         if self.satisfied:
             nominated_nt.add(VocabMeta.EOS_TOKEN)
             return nominated_nt
-        nominated_nt.update(IGNORE_NON_TERMINALS)
+        nominated_nt.update(['[' + nt for nt in IGNORE_NON_TERMINALS])
         if self.ignoring_non_terminal > 0:
             nominated_nt.add(CLOSE_BRACKET)
         for state in self.states:
@@ -453,7 +482,7 @@ class TreeConstraints:
             ):
                 uncovered_children.sort()
                 uncovered_children = uncovered_children[:1]
-            nominated_nt.update([self.node_map[nt] for nt in uncovered_children])
+            nominated_nt.update(['[' + self.node_map[nt] for nt in uncovered_children])
             if state.parent == -1:
                 continue
             elif (state.parent not in self.children_map or
@@ -465,4 +494,6 @@ class TreeConstraints:
                 )
             ):
                 nominated_nt.add(CLOSE_BRACKET)
+            if self.node_map[state.parent] in PLACEHOLDER_ARGUMENTS:
+                nominated_nt.add(self.node_map[state.parent])
         return nominated_nt
