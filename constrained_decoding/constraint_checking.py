@@ -467,6 +467,7 @@ class TreeConstraints:
         if self.satisfied:
             nominated_nt.add(VocabMeta.EOS_TOKEN)
             return nominated_nt
+        nominated_nt.update(IGNORE_NON_TERMINALS)
         nominated_nt.update(['[' + nt for nt in IGNORE_NON_TERMINALS])
         if self.ignoring_non_terminal > 0:
             nominated_nt.add(CLOSE_BRACKET)
