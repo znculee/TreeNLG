@@ -1,8 +1,13 @@
 # Self-Training for Compositional Neural NLG
 
-This repo contains code and data for reproducing the results in *Self-Training for Compositional Neural NLG*.
+This repo contains code and data for reproducing the LSTM results in *Self-Training for Compositional Neural NLG in Task-Oriented Dialogue*.
 This repo was originally used for pull request [#5](https://github.com/facebookresearch/TreeNLG/pull/5) of [facebookresearch/TreeNLG](https://github.com/facebookresearch/TreeNLG).
 Then, it reborn as a branch based on commit [e66e012](https://github.com/facebookresearch/TreeNLG/commit/e66e0123dd2eec6f9e25ed3f1cf935ddf15ff2af) of [facebookresearch/TreeNLG](https://github.com/facebookresearch/TreeNLG) for further reasearch.
+The BART version is at [znculee/TreeNLG-BART](https://github.com/znculee/TreeNLG-BART).
+
+## Reference
+
+TBD
 
 ## [Data](https://github.com/facebookresearch/TreeNLG#data)
 
